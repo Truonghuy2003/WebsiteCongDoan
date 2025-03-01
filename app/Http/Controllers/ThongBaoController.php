@@ -20,7 +20,7 @@ class ThongBaoController extends Controller
 
     public function postThem(Request $request)
     {
-        $this->validate($request, [
+        $request->validate([
             'tieu_de' => 'required|string',
             'noi_dung' => 'required',
             'ngay_gui' => 'required|date',

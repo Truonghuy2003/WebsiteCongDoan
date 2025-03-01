@@ -20,9 +20,10 @@ class BaiVietController extends Controller
 
     public function postThem(Request $request)
     {
-        $this->validate($request, [
-            'tieu_de' => 'required|string',
-            'noi_dung' => 'required',
+        // Kiểm tra dữ liệu nhập vào
+        $request->validate([
+            'tieu_de' => 'required|string|max:255|unique:bai_viets,tieu_de',
+            'noi_dung' => 'required|string',
         ]);
 
         BaiViet::create($request->all());
@@ -39,6 +40,13 @@ class BaiVietController extends Controller
     public function postSua(Request $request, $id)
     {
         $baiViet = BaiViet::findOrFail($id);
+
+        // Kiểm tra dữ liệu nhập vào
+        $request->validate([
+            'tieu_de' => 'required|string|max:255' . $id,
+            'noi_dung' => 'required|string',
+        ]);
+
         $baiViet->update($request->all());
 
         return redirect()->route('baiviet.danhsach')->with('success', 'Cập nhật thành công');
